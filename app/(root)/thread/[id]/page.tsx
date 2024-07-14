@@ -40,7 +40,7 @@ const Page = async ({ params }: { params: { id: string }}) => {
         />
       </div>
 
-      <div className="mt-10 flex flex-col gap-4">
+      <div className="mt-10 flex flex-col">
         {thread.children.map((childItem: any) => (
           <ThreadCard 
           key={childItem._id}

@@ -55,14 +55,14 @@ const ThreadCard = ({
                </div>
 
                <div className="flex w-full flex-col">
-                  <Link href={`/profile/${author.id}`} className="w-fit flex gap-4">
-                  <h4 className="cursor-pointer text-base-semibold text-light-1">{author.name}</h4>
-                  <h5 className="cursor-pointer text-base-regular text-light-3">{`@${author.username}`}</h5>
+                  <Link href={`/profile/${author.id}`} className="w-fit flex gap-2 items-center justify-center">
+                     <h4 className="cursor-pointer text-base-semibold text-light-1">{author.name}</h4>
+                     <h5 className="cursor-pointer text-base-regular text-gray-1">{`@${author.username}`}</h5>
                   </Link>
 
                   <p className="mt-2 text-small-regular text-light-2">{content}</p>
 
-                  <div className="mt-5 flex flex-col gap-3">
+                  <div className={`mt-5 flex flex-col gap-3 ${isComment && 'mb-10'}`}>
                      <div className="flex gap-3.5">
                         <Image src={`/assets/heart-gray.svg`} alt="heart" width={24} height={24} className="cursor-pointer object-contain"/>
                         <Link href={`/thread/${id}`}>
@@ -73,7 +73,7 @@ const ThreadCard = ({
                         <Image src={`/assets/share.svg`} alt="share" width={24} height={24} className="cursor-pointer object-contain"/>
                      </div>
 
-                     {isComment && comments.length > 0 && (
+                     {comments.length > 0 && (
                         <Link href={`/thread/${id}`}>
                            <p className="mt-1 text-subtle-medium text-gray-1">{comments.length} replies</p>
                         </Link>

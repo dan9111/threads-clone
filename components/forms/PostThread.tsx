@@ -17,24 +17,18 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { usePathname, useRouter } from "next/navigation";
 
-import { updateUser } from "@/lib/actions/user.actions";
 import { ThreadValidation } from "@/lib/validations/thread";
 import { createThread } from "@/lib/actions/thread.actions";
 
-interface AccountProfileProps {
-	user: {
-		id: string,
-		objectId: string,
-		username: string,
-		name: string,
-		bio: string,
-		image: string
-	};
-	btnTitle: string;
+import Image from "next/image";
+
+interface PostThreadProps {
+	userId: string;
+	image: string;
 }
 
 
-function PostThread({ userId }: {userId: string}) {
+function PostThread({ userId, image }: PostThreadProps) {
 	const router = useRouter();
 	const pathname = usePathname();
 
@@ -62,25 +56,31 @@ function PostThread({ userId }: {userId: string}) {
             <form 
             onSubmit={form.handleSubmit(onSubmit)} 
             className="mt-10 flex flex-col justify-start gap-10">
-                <FormField
-				control={form.control}
-				name="thread"
-				render={({ field }) => (
-					<FormItem className="flex flex-col gap-3 w-full">
-						<FormLabel className="text-base-semibold text-light-2">
-							Content
-						</FormLabel>
-						<FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
-							<Textarea
-							rows={15}
-							
-							{...field}
-							 />
-						</FormControl>
-						<FormMessage/>
-					</FormItem>
-				)}
-			/>
+							<FormField
+								control={form.control}
+								name="thread"
+								render={({ field }) => (
+								<FormItem className="flex gap-6 w-full">
+									<div className="relative h-20 w-20 aspect-square">
+										<Image
+										src={image}
+										alt="profile"
+										width={96}
+										height={96}
+										priority
+										className="rounded-full object-cover aspect-square"
+										/>
+									</div>
+									<FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
+									<Textarea
+									rows={15}
+									{...field}
+									/>
+									</FormControl>
+									<FormMessage/>
+								</FormItem>
+								)}
+							/>
 
             <Button 
             type="submit"
