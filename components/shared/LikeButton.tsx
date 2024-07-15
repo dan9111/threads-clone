@@ -4,6 +4,7 @@ import { likeThread } from "@/lib/actions/thread.actions"
 
 import Image from "next/image"
 import { formatCount } from "@/lib/utils"
+import { set } from "mongoose"
 
 interface LikeButtonProps {
   threadId: string;
@@ -22,12 +23,11 @@ const LikeButton = ({
 
   const handleLike = async () => {
       setliked(!liked)
-      if (liked) {
-        setLikeCount(likeCount - 1)
-      } else {
-        setLikeCount(likeCount + 1)
-      }
-      await likeThread(threadId, userId).catch(() => setliked(liked))
+      setLikeCount(liked ? likeCount - 1 : likeCount + 1)
+      await likeThread(threadId, userId).catch(() => {
+        setliked(liked);
+        setLikeCount(likeCount);
+      })
   }
 
   return (
