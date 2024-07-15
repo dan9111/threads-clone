@@ -25,6 +25,7 @@ interface ThreadCardProps {
         }
     }[];
     isComment?: boolean;
+    isOwner?: boolean;
 }
 
 const ThreadCard = ({
@@ -37,6 +38,7 @@ const ThreadCard = ({
     createdAt,
     comments,
     isComment,
+    isOwner,
 }: ThreadCardProps) => {
    return (
       <article className={`flex w-full flex-col rounded-xl ${isComment ? 'px-0 xs:px-7' : 'bg-dark-2 p-7'}`}>
@@ -85,13 +87,27 @@ const ThreadCard = ({
             {/* Delete thread */}
             {/* Show comment logo */}
 
-            
+
          </div>
          {!isComment && comments.length > 0 && (
-            <Link href={`/thread/${id}`}>
-               <p className="mt-3 text-subtle-medium text-gray-1">{comments.length} replies</p>
+            <Link href={`/thread/${id}`} className="flex items-center justify-start">
+               {/* Add member images here */}
+               {comments.slice(0, 3).map((member, index) => (
+               <Image
+                  key={index}
+                  src={member.author.image}
+                  alt={`user_${index}`}
+                  width={18}
+                  height={18}
+                  className={`${
+                     index !== 0 && "-ml-2"
+                  } rounded-full object-cover mt-3`}
+               />
+               ))}
+               <p className="mt-3 text-subtle-medium text-gray-1 ml-2">{comments.length} replies</p>
             </Link>
          )}
+
          {!isComment && community && (
                <Link href={`/communities/${community.id}`} className="mt-5 flex items-center">
                   <p className="text-subtle-medium text-gray-1">

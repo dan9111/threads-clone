@@ -4,10 +4,12 @@ import { sidebarLinks } from "@/constants";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 
 function Footer() {
     const router = useRouter();
     const pathname = usePathname();
+    const { userId } = useAuth();
 
     return (
         <section className="bottombar">
@@ -15,11 +17,13 @@ function Footer() {
             {sidebarLinks.map((link) => {
                     const isActive = (pathname.includes(link.route) && link.route.length > 1) || pathname === link.route;
 
+                    if (link.route === "/profile") link.route = `${link.route}/${userId}`;
+
                     return (
                     <Link
                     href={link.route}
                     key={link.label}
-                    className={`bottombar_link ${isActive && "bg-primary-500"}`}
+                    className={`bottombar_link ${isActive && "bg-primary-500"} ${link.route === "/create-thread" && "border border-primary-500"}`}
                     >
                         <Image
                         src={link.imgURL}

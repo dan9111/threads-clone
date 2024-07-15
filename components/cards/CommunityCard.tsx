@@ -46,7 +46,7 @@ function CommunityCard({ id, name, username, imgUrl, bio, members }: Props) {
 
         {members.length > 0 && (
           <div className='flex items-center'>
-            {members.map((member, index) => (
+            {members.slice(0, 3).map((member, index) => (
               <Image
                 key={index}
                 src={member.image}

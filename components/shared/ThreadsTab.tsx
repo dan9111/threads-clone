@@ -45,7 +45,7 @@ const ThreadsTab = async ({
           username: thread.author.username,
           id: thread.author.id
         }}
-        community={thread.community}
+        community={accountType === "User" ? thread.community : result}
         createdAt={thread.createdAt}
         comments={thread.children}
          />
