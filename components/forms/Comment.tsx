@@ -37,6 +37,8 @@ const Comment = ({
     const router = useRouter();
 	const pathname = usePathname();
 
+    let isLoading = false;
+
 	const form = useForm({
 		resolver: zodResolver(CommentValidation),
 		defaultValues: {
@@ -45,9 +47,11 @@ const Comment = ({
 	})
 
     const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
+        isLoading = true;
         await addCommentToThread(threadId, values.thread, JSON.parse(currentUserId), pathname);
 
         form.reset();
+        isLoading = false;
     }
 
     return (
@@ -71,7 +75,6 @@ const Comment = ({
 						</FormLabel>
 						<FormControl className="border-none bg-transparent">
 							<Input
-							type="text"
 							placeholder="Comment..."
                             className="no-focus text-light-1 outline-none"
 							{...field}
@@ -83,7 +86,8 @@ const Comment = ({
 
             <Button 
             type="submit"
-            className="comment-form_btn">Reply</Button>
+            disabled={isLoading}
+            className="comment-form_btn">{isLoading ? <p>Replying...</p> : <p>Reply</p>}</Button>
             </form>
         </Form>
     )

@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import User from './models/user.model';
+import Thread from './models/thread.model';
 
 let isConnected = false; // variable to check connection status
 
@@ -13,6 +15,7 @@ export const connectToDB = async () => {
 
         isConnected = true;
         console.log('Connected to MongoDB');
+
     } catch (error) {
         console.log(error)
     }
