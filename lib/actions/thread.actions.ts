@@ -253,7 +253,6 @@ export async function likeThread(threadId: string, userId: string) {
 
     // Check if the user has already liked the thread
     const hasLiked = user.liked_threads.includes(threadId);
-    console.log('hasLiked:', hasLiked);
 
     if (hasLiked) {
       // Unlike the thread

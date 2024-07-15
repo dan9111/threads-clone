@@ -7,12 +7,15 @@ import { Tabs, TabsList, TabsContent, TabsTrigger } from "@/components/ui/tabs";
 import { communityTabs } from "@/constants";
 import { fetchCommunityDetails } from "@/lib/actions/community.actions";
 import UserCard from "@/components/cards/UserCard";
+import { fetchUser } from "@/lib/actions/user.actions";
 
 
 const Page = async ({params}: {params: {id: string}}) => {
 
     const user = await currentUser();
     if (!user) return null;
+
+    const userInfo = await fetchUser(user.id);
 
     const communityDetails = await fetchCommunityDetails(params.id);
 
@@ -47,7 +50,7 @@ const Page = async ({params}: {params: {id: string}}) => {
 
                     <TabsContent value="threads" className="w-full text-light-1">
                         <ThreadsTab
-                        currentUserId={user.id}
+                        currentUserId={userInfo._id}
                         accountId={communityDetails._id}
                         accountType="Community"
                         />
@@ -70,7 +73,7 @@ const Page = async ({params}: {params: {id: string}}) => {
 
                     <TabsContent value="requests" className="w-full text-light-1">
                         <ThreadsTab
-                        currentUserId={user.id}
+                        currentUserId={userInfo._id}
                         accountId={communityDetails._id}
                         accountType="Community"
                         />
