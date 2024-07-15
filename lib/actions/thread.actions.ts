@@ -239,7 +239,7 @@ export async function addCommentToThread(
   }
 }
 
-export async function likeThread(threadId: string, userId: string, path: string) {
+export async function likeThread(threadId: string, userId: string) {
   connectToDB();
 
   try {
@@ -268,7 +268,6 @@ export async function likeThread(threadId: string, userId: string, path: string)
       await thread.save();
 
     }
-    revalidatePath(path);
   }
   catch (err) {
     console.error("Error while liking post:", err);
