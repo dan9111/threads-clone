@@ -1,6 +1,7 @@
 import { formatCount, formatDateString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import LikeButton from "../shared/LikeButton";
 
 interface ThreadCardProps {
     id: string;
@@ -24,8 +25,9 @@ interface ThreadCardProps {
             image: string;
         }
     }[];
-    isComment?: boolean;
-    isOwner?: boolean;
+   isComment?: boolean;
+   isOwner?: boolean;
+   likedBy: string[];
 }
 
 const ThreadCard = ({
@@ -39,7 +41,9 @@ const ThreadCard = ({
     comments,
     isComment,
     isOwner,
+    likedBy
 }: ThreadCardProps) => {
+
    return (
       <article className={`flex w-full flex-col rounded-xl ${isComment ? 'px-0 xs:px-7' : 'bg-dark-2 p-7'}`}>
          <div className="flex items-start justify-between">
@@ -69,7 +73,11 @@ const ThreadCard = ({
 
                   <div className={`mt-5 flex flex-col gap-3 ${isComment && 'mb-10'}`}>
                      <div className="flex gap-3.5">
-                        <Image src={`/assets/heart-gray.svg`} alt="heart" width={24} height={24} className="cursor-pointer object-contain"/>
+                        <LikeButton
+                           threadId={JSON.parse(JSON.stringify(id))}
+                           userId={currentUserId}
+                           likedBy={likedBy}
+                        />
                         <Link href={`/thread/${id}`} className="flex items-center justify-center gap-1">
                            <Image src={`/assets/reply.svg`} alt="reply" width={24} height={24} className="cursor-pointer object-contain"/>
                            {comments.length > 0 && (

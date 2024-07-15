@@ -9,6 +9,12 @@ export default async function Home() {
   const result = await fetchPosts(1, 30);
   const user = await currentUser();
 
+  if (!user) {
+    redirect("/sign-in");
+  }
+
+  const userInfo = await fetchUser(user.id);
+
   return(
     <div>
       <h1 className="head-text text-left">Home</h1>
@@ -19,16 +25,17 @@ export default async function Home() {
         ) : (
           <>
             {result.posts.map((post) => (
-              <ThreadCard 
+              <ThreadCard
               key={post._id}
               id={post._id}
-              currentUserId={user?.id || ""}
+              currentUserId={userInfo._id}
               parentId={post.parentId}
               content={post.text}
               author={post.author}
               community={post.community}
               createdAt={post.createdAt}
               comments={post.children}
+              likedBy={post.likedBy}
                />
             ))}
           </>

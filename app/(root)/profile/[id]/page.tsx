@@ -15,6 +15,8 @@ const Page = async ({params}: {params: {id: string}}) => {
     const userInfo = await fetchUser(params.id);
     if (!userInfo?.onboarded) redirect("/onboarding");
 
+    const currentUserInfo = await fetchUser(user.id);
+
     return (
         <section>
             <ProfileHeader
@@ -45,7 +47,7 @@ const Page = async ({params}: {params: {id: string}}) => {
                     {profileTabs.map((tab) => (
                         <TabsContent key={`content-${tab.label}`} value={tab.value} className="w-full text-light-1">
                             <ThreadsTab
-                            currentUserId={user.id}
+                            currentUserId={currentUserInfo._id}
                             accountId={userInfo.id}
                             accountType="User"
                             />
