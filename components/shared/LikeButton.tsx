@@ -20,12 +20,8 @@ const LikeButton = ({
   const [liked, setliked] = useState(likedBy.includes(userId))
 
   const handleLike = async () => {
-    try {
-      await likeThread(threadId, userId, pathname)
       setliked(!liked)
-    } catch (err) {
-      console.error("Error while liking thread:", err)
-    }
+      await likeThread(threadId, userId, pathname).catch(() => setliked(liked))
   }
 
   return (
