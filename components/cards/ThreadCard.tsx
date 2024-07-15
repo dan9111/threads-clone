@@ -56,14 +56,14 @@ const ThreadCard = ({
                </div>
 
                <div className="flex w-full flex-col">
-                  <Link href={`/profile/${author.id}`} className="w-fit flex gap-2 items-center justify-center">
+                  <Link href={`/profile/${author.id}`} className="w-fit flex flex-col md:flex-row gap-1 md:gap-2 items-start md:items-center justify-start md:justify-center">
                      <h4 className="cursor-pointer text-base-semibold text-light-1">{author.name}</h4>
                      <h5 className="cursor-pointer text-subtle-medium text-gray-1">{`@${author.username}`}</h5>
-                     <p className="flex items-center text-subtle-medium text-gray-1">•</p>
+                     <p className="hidden md:flex items-center text-subtle-medium text-gray-1">•</p>
                      <p className="flex items-center text-subtle-medium text-gray-1">{formatDateString(createdAt)}</p>
                   </Link>
 
-                  <p className="mt-2 text-small-regular text-light-2">{content}</p>
+                  <p className="mt-4 md:mt-2 text-small-regular text-light-2">{content}</p>
 
                   <div className={`mt-5 flex flex-col gap-3 ${isComment && 'mb-10'}`}>
                      <div className="flex gap-3.5">
