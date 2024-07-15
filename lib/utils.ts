@@ -41,3 +41,7 @@ export function formatThreadCount(count: number): string {
     return `${threadCount} ${threadWord}`;
   }
 }
+
+export function formatCount(count: number) {
+  return count > 1000 ? `${Math.floor(count / 1000)}K` : count;
+}

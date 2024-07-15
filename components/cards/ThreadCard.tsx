@@ -1,3 +1,4 @@
+import { formatCount, formatDateString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -57,7 +58,9 @@ const ThreadCard = ({
                <div className="flex w-full flex-col">
                   <Link href={`/profile/${author.id}`} className="w-fit flex gap-2 items-center justify-center">
                      <h4 className="cursor-pointer text-base-semibold text-light-1">{author.name}</h4>
-                     <h5 className="cursor-pointer text-base-regular text-gray-1">{`@${author.username}`}</h5>
+                     <h5 className="cursor-pointer text-subtle-medium text-gray-1">{`@${author.username}`}</h5>
+                     <p className="flex items-center text-subtle-medium text-gray-1">•</p>
+                     <p className="flex items-center text-subtle-medium text-gray-1">{formatDateString(createdAt)}</p>
                   </Link>
 
                   <p className="mt-2 text-small-regular text-light-2">{content}</p>
@@ -65,23 +68,45 @@ const ThreadCard = ({
                   <div className={`mt-5 flex flex-col gap-3 ${isComment && 'mb-10'}`}>
                      <div className="flex gap-3.5">
                         <Image src={`/assets/heart-gray.svg`} alt="heart" width={24} height={24} className="cursor-pointer object-contain"/>
-                        <Link href={`/thread/${id}`}>
+                        <Link href={`/thread/${id}`} className="flex items-center justify-center gap-1">
                            <Image src={`/assets/reply.svg`} alt="reply" width={24} height={24} className="cursor-pointer object-contain"/>
+                           {comments.length > 0 && (
+                           <p className="text-subtle-medium text-light-4">{formatCount(comments.length)}</p>
+                           )}
                         </Link>
-
                         <Image src={`/assets/repost.svg`} alt="repost" width={24} height={24} className="cursor-pointer object-contain"/>
                         <Image src={`/assets/share.svg`} alt="share" width={24} height={24} className="cursor-pointer object-contain"/>
                      </div>
 
-                     {comments.length > 0 && (
-                        <Link href={`/thread/${id}`}>
-                           <p className="mt-1 text-subtle-medium text-gray-1">{comments.length} replies</p>
-                        </Link>
-                     )}
                   </div>
                </div>
             </div>
+
+            {/* Delete thread */}
+            {/* Show comment logo */}
+
+            
          </div>
+         {!isComment && comments.length > 0 && (
+            <Link href={`/thread/${id}`}>
+               <p className="mt-3 text-subtle-medium text-gray-1">{comments.length} replies</p>
+            </Link>
+         )}
+         {!isComment && community && (
+               <Link href={`/communities/${community.id}`} className="mt-5 flex items-center">
+                  <p className="text-subtle-medium text-gray-1">
+                     {community.name} Community
+                  </p>
+
+                  <Image
+                  src={community.image}
+                  alt={community.name}
+                  width={14}
+                  height={14}
+                  className="ml-1 rounded-full object-cover"
+                  />
+               </Link>
+            )}
       </article>
    )
 }
