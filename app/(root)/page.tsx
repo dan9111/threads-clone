@@ -38,10 +38,10 @@ export default async function Home({
       <Tabs defaultValue="home" className="w-full">
         <TabsList className="tab">
           <TabsTrigger value="following" className="tab">
-          <p className="max-sm:hidden">Following</p>
+          <p className="">Following</p>
           </TabsTrigger>
           <TabsTrigger value="home" className="tab">
-          <p className="max-sm:hidden">Home</p>
+          <p className="">Home</p>
           </TabsTrigger>
         </TabsList>
         <TabsContent value="home" className="mt-9 flex flex-col gap-10">
