@@ -3,12 +3,12 @@ import { Skeleton } from "@/components/ui/skeleton"
 const Loading = () => {
 
   return (
-    <section>
+    <>
       <h1 className="head-text mb-10">Communities</h1>
 
-      <div className="mt-14 flex flex-col gap-9">
+      <section className="mt-9 flex flex-warp gap-4">
       {Array.from({ length: 5}).map((_, index) => (
-        <article className='community-card'>
+        <article key={index} className='community-card'>
         <div className='flex flex-wrap items-center gap-3'>
 
           <Skeleton className="relative h-12 w-12 rounded-full"/>
@@ -31,8 +31,8 @@ const Loading = () => {
       </article>
       ))}
         
-      </div>
-    </section>
+      </section>
+    </>
   )
 }
 
