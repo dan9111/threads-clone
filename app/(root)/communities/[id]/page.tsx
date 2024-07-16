@@ -23,6 +23,7 @@ const Page = async ({params}: {params: {id: string}}) => {
         <section>
             <ProfileHeader
             accountId={communityDetails.id}
+            accountObjectId={communityDetails._id}
             authUserId={user.id}
             currentUserId={userInfo._id}
             name={communityDetails.name}

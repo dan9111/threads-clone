@@ -182,7 +182,7 @@ export async function getActivity(userId: string) {
   }
 }
 
-export async function followUser(userId: string, followUserId: string) {
+export async function followUser(userId: string, followUserId: string, path: string) {
   connectToDB();
   try {
     // Find the user who is following another user
@@ -202,6 +202,8 @@ export async function followUser(userId: string, followUserId: string) {
       await currentUser.save();
       await targetUser.save();
     }
+
+    revalidatePath(path);
   } catch (error) {
     console.error("Error following user: ", error);
     throw error;

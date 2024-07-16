@@ -3,8 +3,9 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { followUser } from "@/lib/actions/user.actions";
+
 
 interface ProfileHeaderProps {
   accountId: string;
@@ -35,6 +36,7 @@ const ProfileHeader = ({
 }: ProfileHeaderProps) => {
   const router = useRouter();
   const [isFollowing, setIsFollowing] = useState(followers.includes(currentUserId));
+  const pathname = usePathname();
 
   let [followersCount, setFollowersCount] = useState(followers.length);
 
@@ -42,7 +44,7 @@ const ProfileHeader = ({
       setIsFollowing(!isFollowing);
       setFollowersCount(isFollowing ? followersCount - 1 : followersCount + 1)
 
-      await followUser(currentUserId, accountObjectId).catch(() => {
+      await followUser(currentUserId, accountObjectId, pathname).catch(() => {
         setIsFollowing(isFollowing);
         setFollowersCount(followersCount);
       })
