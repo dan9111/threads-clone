@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button"
 import {
@@ -31,6 +32,7 @@ interface PostThreadProps {
 
 
 function PostThread({ userId, image }: PostThreadProps) {
+	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 	const pathname = usePathname();
 	const { organization } = useOrganization();
@@ -44,6 +46,7 @@ function PostThread({ userId, image }: PostThreadProps) {
 	})
 
     const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
+				setLoading(true);
         await createThread({
             text: values.thread,
             author: userId,
@@ -63,8 +66,8 @@ function PostThread({ userId, image }: PostThreadProps) {
 								control={form.control}
 								name="thread"
 								render={({ field }) => (
-								<FormItem className="flex gap-6 w-full">
-									<div className="relative h-20 w-20 aspect-square">
+								<FormItem className="flex gap-3 md:gap-6 w-full">
+									<div className="relative w-10 h-10 md:h-20 md:w-20 aspect-square">
 										<Image
 										src={image}
 										alt="profile"
@@ -87,7 +90,8 @@ function PostThread({ userId, image }: PostThreadProps) {
 
             <Button 
             type="submit"
-            className="bg-purple-500">Post Thread</Button>
+						disabled={loading}
+            className="bg-purple-500">{loading ? `Posting Thread...` : `Post Thread`}</Button>
             </form>
         </Form>
     )

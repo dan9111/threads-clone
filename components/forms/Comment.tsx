@@ -21,6 +21,8 @@ import { updateUser } from "@/lib/actions/user.actions";
 import { CommentValidation } from "@/lib/validations/thread";
 import Image from "next/image";
 import { addCommentToThread } from "@/lib/actions/thread.actions";
+import { useState } from "react";
+import { set } from "mongoose";
 // import { createThread } from "@/lib/actions/thread.actions";
 
 interface CommentProps {
@@ -37,7 +39,7 @@ const Comment = ({
     const router = useRouter();
 	const pathname = usePathname();
 
-    let isLoading = false;
+    const [isLoading, setIsLoading] = useState(false);
 
 	const form = useForm({
 		resolver: zodResolver(CommentValidation),
@@ -47,11 +49,11 @@ const Comment = ({
 	})
 
     const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
-        isLoading = true;
+        setIsLoading(true);
         await addCommentToThread(threadId, values.thread, JSON.parse(currentUserId), pathname);
 
         form.reset();
-        isLoading = false;
+        setIsLoading(false);
     }
 
     return (
