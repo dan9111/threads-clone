@@ -181,3 +181,29 @@ export async function getActivity(userId: string) {
     throw error;
   }
 }
+
+export async function followUser(userId: string, followUserId: string) {
+  connectToDB();
+  try {
+    // Find the user who is following another user
+    const currentUser = await User.findById(userId);
+    const targetUser = await User.findById(followUserId);
+
+    const hasFollowed = currentUser.following.includes(followUserId);
+
+    if (hasFollowed) {
+      await User.updateOne({ _id: userId }, { $pull: { following: followUserId } })
+      await User.updateOne({ _id: followUserId }, { $pull: { followers: userId } })
+
+    } else {
+      currentUser.following.push(followUserId);
+      targetUser.followers.push(userId);
+
+      await currentUser.save();
+      await targetUser.save();
+    }
+  } catch (error) {
+    console.error("Error following user: ", error);
+    throw error;
+  }
+}

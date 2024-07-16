@@ -14,6 +14,14 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Thread"
     }],
+    following: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }],
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }],
     onboarded: { type: Boolean, default: false },
     communities: [{
         type: mongoose.Schema.Types.ObjectId,

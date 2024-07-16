@@ -13,19 +13,24 @@ const Page = async ({params}: {params: {id: string}}) => {
     if (!user) return null;
 
     const userInfo = await fetchUser(params.id);
-    if (!userInfo?.onboarded) redirect("/onboarding");
 
     const currentUserInfo = await fetchUser(user.id);
+    if (!currentUserInfo?.onboarded) redirect("/onboarding");
 
     return (
         <section>
             <ProfileHeader
             accountId={userInfo.id}
+            accountObjectId={userInfo._id}
             authUserId={user.id}
+            currentUserId={currentUserInfo._id}
             name={userInfo.name}
             username={userInfo.username}
             imgUrl={userInfo.image}
             bio={userInfo.bio}
+            type="User"
+            following={userInfo.following}
+            followers={userInfo.followers}
             />
 
             <div className="mt-9">

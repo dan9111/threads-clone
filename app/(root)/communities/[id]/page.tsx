@@ -24,11 +24,14 @@ const Page = async ({params}: {params: {id: string}}) => {
             <ProfileHeader
             accountId={communityDetails.id}
             authUserId={user.id}
+            currentUserId={userInfo._id}
             name={communityDetails.name}
             username={communityDetails.username}
             imgUrl={communityDetails.image}
             bio={communityDetails.bio}
             type="Community"
+            following={[]}
+            followers={[]}
             />
 
             <div className="mt-9">
