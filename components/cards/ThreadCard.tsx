@@ -54,7 +54,7 @@ const ThreadCard = ({
                      src={author.image}
                      alt="Profile Image"
                      fill
-                     className="cursor-pointer rounded-full"
+                     className="cursor-pointer rounded-full object-cover"
                      />
                   </Link>
 
@@ -101,16 +101,16 @@ const ThreadCard = ({
             <Link href={`/thread/${id}`} className="flex items-center justify-start">
                {/* Add member images here */}
                {comments.slice(0, 3).map((member, index) => (
+               <div key={index} className={`relative w-[18px] h-[18px] ${
+                  index !== 0 && "-ml-2"
+               } mt-3`}>
                <Image
-                  key={index}
                   src={member.author.image}
                   alt={`user_${index}`}
-                  width={18}
-                  height={18}
-                  className={`${
-                     index !== 0 && "-ml-2"
-                  } rounded-full object-cover mt-3`}
+                  fill
+                  className={` rounded-full object-cover `}
                />
+               </div>
                ))}
                <p className="mt-3 text-subtle-medium text-gray-1 ml-2">{comments.length} replies</p>
             </Link>

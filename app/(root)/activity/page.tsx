@@ -25,13 +25,14 @@ const Page = async () => {
            {activity.map((activity) => (
             <Link key={activity._id} href={`/thread/${activity.parentId}`}>
               <article className="activity-card">
+                <div className="relative w-[20px] h-[20px]">
                 <Image
                 src={activity.author.image}
                 alt="Profile picture"
-                width={20}
-                height={20}
+                fill
                 className="rounded-full object-cover"
                 />
+                </div>
                 <p className="!text-small-regular text-light-1">
                   <span className="mr-1 text-primary-500">
                     {activity.author.name}

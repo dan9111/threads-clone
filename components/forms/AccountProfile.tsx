@@ -42,6 +42,8 @@ const AccountProfile = ({ user, btnTitle }: AccountProfileProps) => {
 	const router = useRouter();
 	const pathname = usePathname();
 
+	const [loading, setLoading] = useState(false);
+
 	const form = useForm({
 		resolver: zodResolver(UserValidation),
 		defaultValues: {
@@ -75,15 +77,16 @@ const AccountProfile = ({ user, btnTitle }: AccountProfileProps) => {
 	}
 
 	const onSubmit = async (values: z.infer<typeof UserValidation>) => {
-    const blob = values.profile_photo;
-	const hasImageChanged = isBase64Image(blob);
-	if (hasImageChanged) {
-		const imgRes = await startUpload(files)
+		setLoading(true);
+		const blob = values.profile_photo;
+		const hasImageChanged = isBase64Image(blob);
+		if (hasImageChanged) {
+			const imgRes = await startUpload(files)
 
-		if (imgRes && imgRes[0].url) {
-			values.profile_photo = imgRes[0].url;
+			if (imgRes && imgRes[0].url) {
+				values.profile_photo = imgRes[0].url;
+			}
 		}
-	}
 
 	// update user profile
 	await updateUser({
@@ -206,7 +209,7 @@ const AccountProfile = ({ user, btnTitle }: AccountProfileProps) => {
 					</FormItem>
 				)}
 			/>
-			<Button type="submit" className="bg-primary-500">Save</Button>
+			<Button disabled={loading} type="submit" className="bg-primary-500">{loading ? `Saving...` : `Save`}</Button>
 		</form>
 	</Form>
 	)
