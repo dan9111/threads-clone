@@ -45,12 +45,13 @@ const Page = async () => {
            {replies.map((replies) => (
             <Link key={replies._id} href={`/thread/${replies.parentId}`}>
               <article className="activity-card">
+                <div className="flex gap-2 items-center">
                 <div className="relative w-[20px] h-[20px]">
-                <Image
-                src={replies.author.image}
-                alt="Profile picture"
-                fill
-                className="rounded-full object-cover"
+                  <Image
+                  src={replies.author.image}
+                  alt="Profile picture"
+                  fill
+                  className="rounded-full object-cover"
                 />
                 </div>
                 <p className="!text-small-regular text-light-1">
@@ -58,6 +59,10 @@ const Page = async () => {
                     {replies.author.name}
                   </span>{" "}
                   replied to your thread
+                </p>
+                </div>
+                <p className="!text-subtle-medium text-ellipsis text-gray-1">
+                 "{replies.text}"
                 </p>
               </article>
             </Link>
@@ -71,7 +76,7 @@ const Page = async () => {
             {likes.map((like) => (
               like.likedUsers.map((user: any) => (
                 <Link key={user._id} href={`/thread/${like.threadId}`}>
-                  <article className="activity-card">
+                  <article className="activity-card !flex-row">
                     <div className="relative w-[20px] h-[20px]">
                     <Image
                     src={user.image}
