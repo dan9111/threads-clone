@@ -213,9 +213,6 @@ export async function getActivity(userId: string) {
       model: User,
       select: "name image _id",
     });
-
-    console.log(likes);
-
     return {likes, replies};
   } catch (error) {
     console.error("Error fetching replies: ", error);
