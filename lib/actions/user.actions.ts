@@ -159,6 +159,7 @@ export async function getActivity(userId: string) {
 
     // Find all threads created by the user
     const userThreads = await Thread.find({ author: userId });
+
     // find all users who liked the user's threads
     const likedIds = userThreads.reduce((likeAcc, userThread) => {
       return likeAcc.concat(userThread.likedBy)
@@ -176,16 +177,30 @@ export async function getActivity(userId: string) {
       return acc.concat(userThread.children);
     }, []);
 
-    const likes = await Thread.find({
-      likedBy: { $in: likedIds},
-      author: { $in: userId }
+    const likedThreads = await Thread.find({
+      likedBy: { $in: likedIds },
+      author: { $in: userId },
     })
     .sort({ createdAt: "desc" })
     .populate({
       path: "likedBy",
       model: User,
-      select: "name image _id",
+      select: "name image _id username",
     });
+
+    // prepare the list of user ids who liked the user's threads (excluding the user)
+    const likes = likedThreads.map((thread) => {
+      const likedUsers = thread.likedBy.filter((user: any) => user._id.toString() !== userId.toString());
+      return {
+        threadId: thread._id,
+        likedUsers: likedUsers.map((user: any) => ({
+          userId: user._id,
+          name: user.name,
+          username: user.username,
+          image: user.image,
+        }))
+      }
+    })
 
     // Find and return the child threads (replies) excluding the ones created by the same user
     const replies = await Thread.find({
@@ -201,7 +216,7 @@ export async function getActivity(userId: string) {
 
     console.log(likes);
 
-    return {likedIds, replies};
+    return {likes, replies};
   } catch (error) {
     console.error("Error fetching replies: ", error);
     throw error;
