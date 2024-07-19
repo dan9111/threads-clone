@@ -38,12 +38,14 @@ const ThreadsTab = async ({
           name: result.name,
           image: result.image,
           username: result.username,
-          id: accountId
+          id: accountId,
+          _id: result._id
         } : {
           name: thread.author.name,
           image: thread.author.image,
           username: thread.author.username,
-          id: thread.author.id
+          id: thread.author.id,
+          _id: thread.author._id
         }}
         community={accountType === "User" ? thread.community : result}
         createdAt={thread.createdAt}

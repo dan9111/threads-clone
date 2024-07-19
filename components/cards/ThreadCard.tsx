@@ -2,7 +2,7 @@ import { formatCount, formatDateString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import LikeButton from "../shared/LikeButton";
-
+import DeleteThread from "../forms/DeleteThread";
 interface ThreadCardProps {
     id: string;
     currentUserId: string;
@@ -13,6 +13,7 @@ interface ThreadCardProps {
         image: string;
         id: string;
         username: string;
+        _id: string;
     }
     community: {
         id: string;
@@ -88,11 +89,26 @@ const ThreadCard = ({
                         <Image src={`/assets/share.svg`} alt="share" width={24} height={24} className="cursor-pointer object-contain"/>
                      </div>
 
+                     {isComment && comments.length > 0 && (
+                        <Link href={`/thread/${id}`}>
+                           <p className='mt-1 text-subtle-medium text-gray-1'>
+                           {comments.length} repl{comments.length > 1 ? "ies" : "y"}
+                           </p>
+                        </Link>
+                     )}
+
                   </div>
                </div>
             </div>
 
             {/* Delete thread */}
+            <DeleteThread
+               threadId={JSON.stringify(id)}
+               currentUserId={currentUserId}
+               authorId={author._id}
+               parentId={parentId}
+               isComment={isComment}
+            />
             {/* Show comment logo */}
 
 
@@ -112,7 +128,7 @@ const ThreadCard = ({
                />
                </div>
                ))}
-               <p className="mt-3 text-subtle-medium text-gray-1 ml-2">{comments.length} replies</p>
+               <p className="mt-3 text-subtle-medium text-gray-1 ml-2">{comments.length} repl{comments.length > 1 ? "ies" : "y"}</p>
             </Link>
          )}
 

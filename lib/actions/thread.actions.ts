@@ -190,6 +190,11 @@ export async function deleteThread(id: string, path: string): Promise<void> {
       { $pull: { threads: { $in: descendantThreadIds } } }
     );
 
+    // remove liked threads from user model
+    await User.updateMany(
+      { }, { $pull: { liked_threads: { $in: descendantThreadIds } } }
+    );
+
     // Update Community model
     await Community.updateMany(
       { _id: { $in: Array.from(uniqueCommunityIds) } },
